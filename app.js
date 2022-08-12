@@ -1,21 +1,20 @@
 const express = require('express');
 const axios = require('axios');
 const config = require('./config');
+const simNet = require('./lib/simnet');
 
 const app = express();
  app.listen(5858);
 
  const init= async() => {
-   const response = await axios.get(`${config.simNet.url}/v1/user/profile`,{
-      headers: {
-
-            "Authorization": `Bearer ${config.simNet.apiKey}`, 
-            "Content-Type": "application/json"
-      }});
-   console.log(response.data);
-   
-
-
+   const simNetGetProfile = await simNet.getProfile();
+   console.log(simNetGetProfile);
+   try {
+    const country = await simNet.buyNumber();
+    console.log(country);
+   } catch (error) {
+    console.log(error);
+   }
 
 };
 
